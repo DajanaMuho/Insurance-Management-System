@@ -10,8 +10,8 @@ function Dashboard(props) {
     const [customers, setCustomers] = useState([]);
     const storageSelectedCustomer = localStorage.getItem('selectedCustomer');
     const [selectedCustomer, setSelectedCustomer] = useState(storageSelectedCustomer ? JSON.parse(storageSelectedCustomer) : {id: null, name: "Choose Customer"});
-    let [predictedClaimValue, setPredictedClaimValue] = useState(false);
-    let [predictedClaimAmount, setPredictedClaimAmount] = useState(0);
+    let [predictedClaimValue, setPredictedClaimValue] = useState(localStorage.getItem('predictedValue') ? JSON.parse(localStorage.getItem('predictedValue')) :false)
+    let [predictedClaimAmount, setPredictedClaimAmount] = useState(localStorage.getItem('predictedAmount') ? JSON.parse(localStorage.getItem('predictedAmount')) :0)
   
     const [leftIntensity, setleftIntensity] = useState({
         labels: ["Intensity08", "Intensity09", "Intensity10", "Intensity11", "Intensity12"],
@@ -19,14 +19,14 @@ function Dashboard(props) {
             label: "Left Turn Intensity",
             fill: true,
             lineTension: 0.3,
-            backgroundColor: "rgba(225, 204,230, .3)",
-            borderColor: "rgb(205, 130, 158)",
+            backgroundColor: "rgba(175, 175, 65, .3)",
+            borderColor: "rgb(175, 175, 65)",
             borderCapStyle: "butt",
             borderDash: [],
             borderDashOffset: 0.0,
             borderJoinStyle: "miter",
-            pointBorderColor: "rgb(205, 130,1 58)",
-            pointBackgroundColor: "rgb(255, 255, 255)",
+            pointBorderColor: "rgb(86, 96, 64)",
+            pointBackgroundColor: "rgb(78, 55, 3)",
             pointBorderWidth: 10,
             pointHoverRadius: 5,
             pointHoverBackgroundColor: "rgb(0, 0, 0)",
@@ -34,7 +34,7 @@ function Dashboard(props) {
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: [],
+            data: localStorage.getItem('left') ? JSON.parse(localStorage.getItem('left')) : []
         }]
     })
     const [timeOnTheRoadLine, setTimeOnTheRoadLine] = useState({
@@ -43,14 +43,14 @@ function Dashboard(props) {
             label: "Annual Percentage Of Time On The Road",
             fill: true,
             lineTension: 0.3,
-            backgroundColor: "rgba(225, 204,230, .3)",
-            borderColor: "rgb(205, 130, 158)",
+            backgroundColor: "rgba(213, 248, 255, .3)",
+            borderColor: "rgb(133, 179, 209, 1.00)",
             borderCapStyle: "butt",
             borderDash: [],
             borderDashOffset: 0.0,
             borderJoinStyle: "miter",
-            pointBorderColor: "rgb(205, 130,1 58)",
-            pointBackgroundColor: "rgb(255, 255, 255)",
+            pointBorderColor: "rgb(0, 27, 67)",
+            pointBackgroundColor: "rgb(0, 27, 67, .5)",
             pointBorderWidth: 10,
             pointHoverRadius: 5,
             pointHoverBackgroundColor: "rgb(0, 0, 0)",
@@ -58,7 +58,7 @@ function Dashboard(props) {
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: []
+            data: localStorage.getItem('time') ? JSON.parse(localStorage.getItem('time')) : []
         }]
     });
     const [rightItensity, setRightItensity] = useState({
@@ -67,14 +67,14 @@ function Dashboard(props) {
             label: "Right Turn Intensity",
             fill: true,
             lineTension: 0.3,
-            backgroundColor: "rgba(225, 204,230, .3)",
-            borderColor: "rgb(205, 130, 158)",
+            backgroundColor: "rgba(251, 221, 118, .5)",
+            borderColor: "rgb(249, 212, 85)",
             borderCapStyle: "butt",
             borderDash: [],
             borderDashOffset: 0.0,
             borderJoinStyle: "miter",
-            pointBorderColor: "rgb(205, 130,1 58)",
-            pointBackgroundColor: "rgb(255, 255, 255)",
+            pointBorderColor: "rgb(111, 88, 0)",
+            pointBackgroundColor: "rgb(41, 32, 2)",
             pointBorderWidth: 10,
             pointHoverRadius: 5,
             pointHoverBackgroundColor: "rgb(0, 0, 0)",
@@ -82,21 +82,21 @@ function Dashboard(props) {
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: []
+            data:  localStorage.getItem('right') ? JSON.parse(localStorage.getItem('right')) : []
         }]
     });
     const [barChartAcc, setBarChartAcc] = useState({
         labels: ['Accel.06miles', 'Accel.08miles', 'Accel.09miles', 'Accel.11miles', 'Accel.12miles', 'Accel.14miles'],
         datasets: [{
             label: 'Sudden Acceleration',
-            data: [],
+            data:  localStorage.getItem('acc') ? JSON.parse(localStorage.getItem('acc')) : [],
             backgroundColor: [
-                'rgba(255, 85, 136, 0.2)',
-                'rgba(251, 147, 42, 0.2)',
-                'rgba(254, 186, 29, 0.2)',
-                'rgba(44, 217, 217, 0.2)',
-                'rgba(25, 137, 213, 0.2)',
-                'rgba(153, 102, 255, 0.2)'
+                'rgba(72, 123, 177, .5)',
+                'rgba(175, 175, 65, .5)',
+                'rgba(175, 96, 65, .5)',
+                'rgba(172, 232, 120, .5)',
+                'rgba(90, 81, 2, .5)',
+                'rgba(251, 221, 118, .5)'
             ],
         }]
     });
@@ -104,35 +104,37 @@ function Dashboard(props) {
         labels: ["Brake.06miles", "Brake.08miles", "Brake.09miles", "Brake.11miles", "Brake.12miles", "Brake.14miles"],
         datasets: [{
             label: 'Sudden Brakes',
-            data: [],
+            data:  localStorage.getItem('brake') ? JSON.parse(localStorage.getItem('brake')) : [],
             backgroundColor: [
-                'rgba(255, 85, 136, 0.2)',
-                'rgba(251, 147, 42, 0.2)',
-                'rgba(254, 186, 29, 0.2)',
-                'rgba(44, 217, 217, 0.2)',
-                'rgba(25, 137, 213, 0.2)',
-                'rgba(153, 102, 255, 0.2)'
+                'rgba(72, 123, 177, .5)',
+                'rgba(175, 175, 65, .5)',
+                'rgba(175, 96, 65, .5)',
+                'rgba(172, 232, 120, .5)',
+                'rgba(90, 81, 2, .5)',
+                'rgba(251, 221, 118, .5)'
             ],
         }]
     });
     
     const fetchCustomers = async () => {
-        //TODO: ADd fail catch
+        try {
         const customers = await API.getCustomers(token);
         setCustomers(customers);
+        } catch (err){
+            alert(err);
+        }
     }
     
-    const selectCustomer = (evt) => {
+    const selectCustomer = async (evt) => {
         const target = evt.target;
         const customer = {id: target.value, name: target.textContent};
-        setSelectedCustomer(customer);
+        await getMachineGeneratedData(customer.id);
         localStorage.setItem('selectedCustomer', JSON.stringify(customer));
-        getMachineGeneratedData();
+        setSelectedCustomer(customer);
     }
 
-    const getMachineGeneratedData = async () => {
-        const result = await API.getMachineGeneratedData(token, selectedCustomer.id);
-        //CHARTS
+    const getMachineGeneratedData = async (customerId) => {
+        const result = await API.getMachineGeneratedData(token, customerId);
         let left = [], time = [], right = [], acc = [], brake = [], value = false, amount = 0;
         (result || []).forEach(data => {
             left.push(data['Left_turn_intensity08'], data['Left_turn_intensity09'], data['Left_turn_intensity10'], data['Left_turn_intensity11'], data['Left_turn_intensity12']);
@@ -144,16 +146,23 @@ function Dashboard(props) {
             amount = data.predictedClaimAmount;
         });
         leftIntensity.datasets[0].data = left;
+        localStorage.setItem('left', JSON.stringify(left));
         timeOnTheRoadLine.datasets[0].data = time;
+        localStorage.setItem('time', JSON.stringify(time));
         rightItensity.datasets[0].data = right;
+        localStorage.setItem('right', JSON.stringify(right));
         barChartAcc.datasets[0].data = acc;
+        localStorage.setItem('acc',JSON.stringify(acc));
         barChartBrake.datasets[0].data = brake;
+        localStorage.setItem('brake',JSON.stringify(brake));
         setleftIntensity(leftIntensity);
         setTimeOnTheRoadLine(timeOnTheRoadLine);
         setRightItensity(rightItensity);
         setBarChartAcc(barChartAcc);
         setBarChartBrake(barChartBrake);
+        localStorage.setItem('predictedValue', JSON.stringify(value));
         setPredictedClaimValue(value);
+        localStorage.setItem('predictedAmount', JSON.stringify(amount));
         setPredictedClaimAmount(amount);
     }
 
@@ -164,10 +173,9 @@ function Dashboard(props) {
     }
 
     useEffect(() => {
-        // addMachineGeneratedData(); Import data to db before
         fetchCustomers();
-        getMachineGeneratedData();
-    }, [customers]) //,leftIntensityChart, timeOnRoadChart, rightIntensityChart, accChart, brakeChart])
+    }, [customers, leftIntensity, timeOnTheRoadLine, rightItensity, barChartAcc, barChartBrake])
+
 
     return(
         <MDBContainer className="dashboardGrid">
@@ -185,14 +193,15 @@ function Dashboard(props) {
                     </MDBDropdownMenu>
                     </MDBDropdown>
                     {selectedCustomer.id &&
-                        <span className="p-3"> According to ML model there is a
-                                    <p className="text-success d-inline "> {predictedClaimValue ? 'higher' : 'lower'} </p> 
-                                    chance of customer proclaming a claim. 
+                        <span className="p-3"> According to Machine Learning model there is a 
+                                <p className={predictedClaimValue ? "text-success d-inline" : "text-danger d-inline"}> {predictedClaimValue ? 'higher' : 'lower'} </p> 
+                                 chance of customer making an insurance claim.
                                     Amount:  <p className="font-weight-bold d-inline ">{predictedClaimAmount}</p>
                         </span> 
                     }
             </MDBRow>
-            <MDBRow>
+            { selectedCustomer.id &&
+                 <MDBRow>
                  <MDBCol>
                     <Line data={leftIntensity} options={{ responsive: true }} />
                 </MDBCol>
@@ -203,6 +212,8 @@ function Dashboard(props) {
                     <Line data={rightItensity} options={{ responsive: true }} />
                 </MDBCol>
             </MDBRow>
+            }
+            { selectedCustomer.id &&
             <MDBRow>
                 <div className="w-100" />
                 <MDBCol> 
@@ -211,7 +222,8 @@ function Dashboard(props) {
                 <MDBCol> 
                     <Bar data={barChartBrake} options={{ responsive: true }} />
                 </MDBCol>
-            </MDBRow>
+                </MDBRow>
+            }
         </MDBContainer>
     )
 }

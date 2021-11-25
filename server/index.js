@@ -9,6 +9,7 @@ const deviceController = require("./controllers/DeviceController");
 const machineGeneratedController = require("./controllers/machineGeneratedDataController");
 
 const connectDB = require('./drivers/db');
+const connectRedis = require('./drivers/redis');
 
 const app = express();
 const apiPort = 5001;
@@ -31,10 +32,13 @@ function verifyToken(req, res, next) {
 }
 
 //ROUTES
+
 connectDB().then(async () => {
-    app.listen(apiPort, () =>
+    app.listen(apiPort, () => 
       console.log(`Server is running on port: ${apiPort}`),
     );
+
+    const clientRedis = await connectRedis();
 
     //DEVICE ROUTES
     app.post('/main/editDevice', verifyToken, async (req, res) => {
@@ -69,6 +73,9 @@ connectDB().then(async () => {
 
     //INSURANCE COMPANY ROUTES
     app.post('/register', async (req, res) => {
+      await clientRedis.set('insuranceCompanyName', req.body.name); //Just an example of Redis usage
+      const name = await clientRedis.get('insuranceCompanyName');
+      console.log(name);
       res.send(await insuranceCompanyController.addInsuranceCompany(req));
     });
 
