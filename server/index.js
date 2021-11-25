@@ -1,7 +1,7 @@
-
 const express = require('express');
 const cors = require('cors');
 const { status } = require("./lib/constansts");
+
 //CONTROLLERS
 const customerController = require("./controllers/CustomerController");
 const insuranceCompanyController = require("./controllers/InsuranceCompanyController");
@@ -10,6 +10,7 @@ const machineGeneratedController = require("./controllers/machineGeneratedDataCo
 
 const connectDB = require('./drivers/db');
 const connectRedis = require('./drivers/redis');
+const pushToBQ = require('./drivers/bigQuery');
 
 const app = express();
 const apiPort = 5001;
@@ -73,9 +74,12 @@ connectDB().then(async () => {
 
     //INSURANCE COMPANY ROUTES
     app.post('/register', async (req, res) => {
-      await clientRedis.set('insuranceCompanyName', req.body.name); //Just an example of Redis usage
+      //Just an example of Redis usage
+      await clientRedis.set('insuranceCompanyName', req.body.name); 
       const name = await clientRedis.get('insuranceCompanyName');
       console.log(name);
+      //Just an example of Big Query usage
+      pushToBQ([req.body]);
       res.send(await insuranceCompanyController.addInsuranceCompany(req));
     });
 

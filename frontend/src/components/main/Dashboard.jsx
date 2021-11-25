@@ -10,8 +10,8 @@ function Dashboard(props) {
     const [customers, setCustomers] = useState([]);
     const storageSelectedCustomer = localStorage.getItem('selectedCustomer');
     const [selectedCustomer, setSelectedCustomer] = useState(storageSelectedCustomer ? JSON.parse(storageSelectedCustomer) : {id: null, name: "Choose Customer"});
-    let [predictedClaimValue, setPredictedClaimValue] = useState(localStorage.getItem('predictedValue') ? JSON.parse(localStorage.getItem('predictedValue')) :false)
-    let [predictedClaimAmount, setPredictedClaimAmount] = useState(localStorage.getItem('predictedAmount') ? JSON.parse(localStorage.getItem('predictedAmount')) :0)
+    const [predictedClaimValue, setPredictedClaimValue] = useState(localStorage.getItem('predictedValue') ? JSON.parse(localStorage.getItem('predictedValue')) :false)
+    const [predictedClaimAmount, setPredictedClaimAmount] = useState(localStorage.getItem('predictedAmount') ? JSON.parse(localStorage.getItem('predictedAmount')) :0)
   
     const [leftIntensity, setleftIntensity] = useState({
         labels: ["Intensity08", "Intensity09", "Intensity10", "Intensity11", "Intensity12"],
@@ -131,6 +131,7 @@ function Dashboard(props) {
         await getMachineGeneratedData(customer.id);
         localStorage.setItem('selectedCustomer', JSON.stringify(customer));
         setSelectedCustomer(customer);
+        window.location.reload(true)
     }
 
     const getMachineGeneratedData = async (customerId) => {
