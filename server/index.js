@@ -79,7 +79,7 @@ connectDB().then(async () => {
       const name = await clientRedis.get('insuranceCompanyName');
       console.log(name);
       //Just an example of Big Query usage
-      pushToBQ([req.body]);
+      // pushToBQ([req.body]);
       res.send(await insuranceCompanyController.addInsuranceCompany(req));
     });
 
