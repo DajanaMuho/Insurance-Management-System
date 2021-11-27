@@ -3,4 +3,4 @@ runtime: nodejs16
 service: api
 
 env_variables:
-  MONGO_URI: 'mongodb+srv://dajana_muho:<1234>@cluster.ny8ct.mongodb.net/management?retryWrites=true&w=majority'
+  MONGO_URI: 'mongodb+srv://dajana_muho:1234@cluster.ny8ct.mongodb.net/management?retryWrites=true&w=majority'

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL =  'http://localhost:5001';
+const BASE_URL = 'https://api-dot-neon-azimuth-333320.uc.r.appspot.com'; //'http://localhost:5001';
 //TODO: ADD LOGSSS
 
 const register = async (insuranceCompany) => {
