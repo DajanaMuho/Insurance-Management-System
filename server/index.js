@@ -18,7 +18,8 @@ const apiPort = 5001;
 app.use(express.urlencoded({ extended: true }))
 app.use(cors())
 app.use(express.json())
-
+//allow OPTIONS on all resources
+app.options('*', cors())
 
 //VERIFY TOKEN 
 function verifyToken(req, res, next) {
@@ -35,6 +36,13 @@ function verifyToken(req, res, next) {
 //ROUTES
 
 connectDB().then(async () => {
+
+    app.use(function(req, res, next) {
+      res.header("Access-Control-Allow-Origin", "*");
+      res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+      next();
+    });
+
     app.listen(apiPort, () => 
       console.log(`Server is running on port: ${apiPort}`),
     );
