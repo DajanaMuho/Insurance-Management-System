@@ -13,7 +13,7 @@ const connectRedis = require('./drivers/redis');
 const pushToBQ = require('./drivers/bigQuery');
 
 const app = express();
-const apiPort = 5001;
+const apiPort = 8080;
 
 app.use(express.urlencoded({ extended: true }))
 app.use(cors())

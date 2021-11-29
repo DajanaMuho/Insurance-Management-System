@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://api-dot-neon-azimuth-333320.uc.r.appspot.com'; //'http://localhost:5001';
+const BASE_URL = 'https://api-dot-neon-azimuth-333320.uc.r.appspot.com:8080';
 //TODO: ADD LOGSSS
 
 const register = async (insuranceCompany) => {
@@ -8,7 +8,11 @@ const register = async (insuranceCompany) => {
         const { data: result}  = await axios({
             method: 'POST', 
             url: BASE_URL + '/register', 
-            data: insuranceCompany
+            data: insuranceCompany,
+            headers: {
+                "Access-Control-Allow-Origin": "",
+                "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
+            }
         });
         if (result.statusCode === 200) return true;
         return false; 

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL =  'https://api-dot-neon-azimuth-333320.uc.r.appspot.com'; //'http://localhost:5001';
+const BASE_URL =  'https://api-dot-neon-azimuth-333320.uc.r.appspot.com:8080';
 //TODO: ADD LOGSSS
 
 // CUSTOMER API
