@@ -11,7 +11,6 @@ function Dashboard(props) {
     const storageSelectedCustomer = localStorage.getItem('selectedCustomer');
     const [selectedCustomer, setSelectedCustomer] = useState(storageSelectedCustomer ? JSON.parse(storageSelectedCustomer) : {id: null, name: "Choose Customer"});
     const [predictedClaimValue, setPredictedClaimValue] = useState(localStorage.getItem('predictedValue') ? JSON.parse(localStorage.getItem('predictedValue')) :false)
-    const [predictedClaimAmount, setPredictedClaimAmount] = useState(localStorage.getItem('predictedAmount') ? JSON.parse(localStorage.getItem('predictedAmount')) :0)
   
     const [leftIntensity, setleftIntensity] = useState({
         labels: ["Intensity08", "Intensity09", "Intensity10", "Intensity11", "Intensity12"],
@@ -136,7 +135,7 @@ function Dashboard(props) {
 
     const getMachineGeneratedData = async (customerId) => {
         const result = await API.getMachineGeneratedData(token, customerId);
-        let left = [], time = [], right = [], acc = [], brake = [], value = false, amount = 0;
+        let left = [], time = [], right = [], acc = [], brake = [], value = false;
         (result || []).forEach(data => {
             left.push(data['Left_turn_intensity08'], data['Left_turn_intensity09'], data['Left_turn_intensity10'], data['Left_turn_intensity11'], data['Left_turn_intensity12']);
             time.push(data['Pct_drive_mon'], data['Pct_drive_tue'], data['Pct_drive_wed'], data['Pct_drive_thr'], data['Pct_drive_fri'], data['Pct_drive_sat'], data['Pct_drive_sun']);
@@ -144,7 +143,6 @@ function Dashboard(props) {
             acc.push(data['Accel_06miles'], data['Accel_08miles'], data['Accel_09miles'], data['Accel_11miles'], data['Accel_12miles'], data['Accel_14miles']);
             brake.push(data['Brake_06miles'], data['Brake_08miles'], data['Brake_09miles'], data['Brake_11miles'], data['Brake_12miles'], data['Brake_14miles']);
             value = data.predictedClaimValue;
-            amount = data.predictedClaimAmount;
         });
         leftIntensity.datasets[0].data = left;
         localStorage.setItem('left', JSON.stringify(left));
@@ -163,8 +161,6 @@ function Dashboard(props) {
         setBarChartBrake(barChartBrake);
         localStorage.setItem('predictedValue', JSON.stringify(value));
         setPredictedClaimValue(value);
-        localStorage.setItem('predictedAmount', JSON.stringify(amount));
-        setPredictedClaimAmount(amount);
     }
 
     const addMachineGeneratedData = async () => {
@@ -197,7 +193,6 @@ function Dashboard(props) {
                         <span className="p-3"> According to Machine Learning model there is a 
                                 <p className={predictedClaimValue ? "text-success d-inline" : "text-danger d-inline"}> {predictedClaimValue ? 'higher' : 'lower'} </p> 
                                  chance of customer making an insurance claim.
-                                    Amount:  <p className="font-weight-bold d-inline ">{predictedClaimAmount}</p>
                         </span> 
                     }
             </MDBRow>

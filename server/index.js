@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const { status } = require("./lib/constansts");
+const path = require('path');
 
 //CONTROLLERS
 const customerController = require("./controllers/CustomerController");
@@ -20,6 +21,7 @@ app.use(cors())
 app.use(express.json())
 //allow OPTIONS on all resources
 app.options('*', cors())
+
 
 //VERIFY TOKEN 
 function verifyToken(req, res, next) {
@@ -46,8 +48,7 @@ connectDB().then(async () => {
     app.listen(apiPort, () => 
       console.log(`Server is running on port: ${apiPort}`),
     );
-
-    const clientRedis = await connectRedis();
+    // const clientRedis = await connectRedis();
 
     //DEVICE ROUTES
     app.post('/main/editDevice', verifyToken, async (req, res) => {
@@ -83,9 +84,9 @@ connectDB().then(async () => {
     //INSURANCE COMPANY ROUTES
     app.post('/register', async (req, res) => {
       //Just an example of Redis usage
-      await clientRedis.set('insuranceCompanyName', req.body.name); 
-      const name = await clientRedis.get('insuranceCompanyName');
-      console.log(name);
+      // await clientRedis.set('insuranceCompanyName', req.body.name); 
+      // const name = await clientRedis.get('insuranceCompanyName');
+      // console.log(name);
       //Just an example of Big Query usage
       // pushToBQ([req.body]);
       res.send(await insuranceCompanyController.addInsuranceCompany(req));
@@ -111,6 +112,10 @@ connectDB().then(async () => {
 
     app.get('/main/getMachineGeneratedData', verifyToken, async (req, res) => {
       res.send(await machineGeneratedController.getMachineGeneratedData(req));
+    });
+
+    app.get('/*', function (req, res) {
+      res.sendFile(path.join(__dirname, '/frontend/build', 'index.html'));
     });
 
   }).catch((err) => {
