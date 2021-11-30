@@ -191,7 +191,7 @@ function Dashboard(props) {
                     </MDBDropdown>
                     {selectedCustomer.id &&
                         <span className="p-3"> According to Machine Learning model there is a 
-                                <p className={predictedClaimValue ? "text-success d-inline" : "text-danger d-inline"}> {predictedClaimValue ? 'higher' : 'lower'} </p> 
+                                <p className={predictedClaimValue ? "text-danger d-inline" : "text-success d-inline"}> {predictedClaimValue ? 'higher' : 'lower'} </p> 
                                  chance of customer making an insurance claim.
                         </span> 
                     }

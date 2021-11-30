@@ -15,6 +15,12 @@ function Navigator(props) {
   const logout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('selectedCustomer');
+    localStorage.removeItem('left');
+    localStorage.removeItem('time');
+    localStorage.removeItem('right');
+    localStorage.removeItem('acc');
+    localStorage.removeItem('brake');
+    localStorage.removeItem('predictedValue');
   }
 
   return (
