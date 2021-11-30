@@ -113,29 +113,6 @@ connectDB().then(async () => {
     app.get('/main/getMachineGeneratedData', verifyToken, async (req, res) => {
       res.send(await machineGeneratedController.getMachineGeneratedData(req));
     });
-
-    // app.get('/*', function(req, res) {
-    //   res.sendFile(path.join(__dirname, '/frontend/build', 'index.html'), function(err) {
-    //     if (err) {
-    //       err.dirname = __dirname;
-    //       err.path = path.join(__dirname, '/frontend/build', 'index.html');
-    //       res.status(500).send(err)
-    //     }
-    //   })
-    // })
-
-    app.use(express.static(path.join(__dirname, "..", "build")));
-    app.use(express.static("public"));
-    
-    app.use((req, res, next) => {
-      res.sendFile(path.join(__dirname, "..", "build", "index.html"), function(err) {
-            if (err) {
-              err.dirname = __dirname;
-              err.path = path.join(__dirname, "..", "build", "index.html");
-              res.status(500).send(err)
-            }
-          });
-    });
     
   }).catch((err) => {
       console.log(err)
