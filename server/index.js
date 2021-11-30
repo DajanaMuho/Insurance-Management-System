@@ -114,9 +114,13 @@ connectDB().then(async () => {
       res.send(await machineGeneratedController.getMachineGeneratedData(req));
     });
 
-    app.get('/*', function (req, res) {
-      res.sendFile(path.join(__dirname, '/frontend/build', 'index.html'));
-    });
+    app.get('/*', function(req, res) {
+      res.sendFile(path.join(__dirname, '/public/index.html'), function(err) {
+        if (err) {
+          res.status(500).send(err)
+        }
+      })
+    })
 
   }).catch((err) => {
       console.log(err)
