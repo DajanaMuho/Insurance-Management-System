@@ -1208,3 +1208,4 @@
 {"error":"FieldPath field names may not start with '$'.","level":"error","message":"MongoDB Query Error","source":"/repositories/machineGeneratedDataRespository.getMachineGeneratedData"}
 {"error":"deviceModel.findMany is not a function","level":"error","message":"MongoDB Query Error","source":"/repositories/machineGeneratedDataRespository.getMachineGeneratedData"}
 {"error":"devices.forEach is not a function","level":"error","message":"MongoDB Query Error","source":"/repositories/machineGeneratedDataRespository.getMachineGeneratedData"}
+{"error":"The \"data\" argument must be of type string or an instance of Buffer, TypedArray, or DataView. Received undefined","level":"error","message":"MongoDB Query Error","params":{"name":"Alfa","timestamp":"2021-11-30T18:26:57.211Z"},"source":"/repositories/insuranceCompanyRepository.addInsuranceCompany"}

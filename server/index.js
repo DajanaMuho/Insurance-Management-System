@@ -48,7 +48,7 @@ connectDB().then(async () => {
     app.listen(apiPort, () => 
       console.log(`Server is running on port: ${apiPort}`),
     );
-    // const clientRedis = await connectRedis();
+    const clientRedis = await connectRedis();
 
     //DEVICE ROUTES
     app.post('/main/editDevice', verifyToken, async (req, res) => {
@@ -83,12 +83,12 @@ connectDB().then(async () => {
 
     //INSURANCE COMPANY ROUTES
     app.post('/register', async (req, res) => {
-      //Just an example of Redis usage
-      // await clientRedis.set('insuranceCompanyName', req.body.name); 
-      // const name = await clientRedis.get('insuranceCompanyName');
-      // console.log(name);
-      //Just an example of Big Query usage
-      // pushToBQ([req.body]);
+      // Just an example of Redis usage
+      await clientRedis.set('insuranceCompanyName', req.body.name); 
+      const name = await clientRedis.get('insuranceCompanyName');
+      console.log(name);
+      // Just an example of Big Query usage
+      pushToBQ([req.body]);
       res.send(await insuranceCompanyController.addInsuranceCompany(req));
     });
 

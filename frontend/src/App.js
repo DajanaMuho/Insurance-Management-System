@@ -11,7 +11,7 @@ function App() {
     }
 
     return (
-        <Router>
+        <Router basename='/index.html'>
             <Switch>
                 <Route exact path="/" render={() => (isLogin() ?  <Redirect to="/main/dashboard"/> : <Register/> )}  />
                 <Route exact path="/auth"  render={() => (isLogin() ?  <Dashboard/> :    <Redirect to="/auth/login"/> )}/>
