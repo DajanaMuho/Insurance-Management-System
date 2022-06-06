@@ -29,7 +29,7 @@ B. User Interface
 
 To present the Machine Learning model predictions and the
 Data Visualization to insurance companies on a Full-stack
-management system to visualize the driver behavior.
+management system to visualize the driver behavior using React and Node.js
 
 
 # Project Demo
