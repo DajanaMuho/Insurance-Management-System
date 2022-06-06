@@ -19,13 +19,13 @@ validated, cleaned, and trained to create a model that will help us
 analyze customer behavior.
 
 #### Project Goals
-A. Machine Learning Model Generation
+●  Machine Learning Model Generation
 
 To build a Machine Learning model to predict the claim
 status i.e. whether the person would claim the insurance based
 on the telematics data and the traditional data.
 
-B. User Interface
+●  User Interface
 
 To present the Machine Learning model predictions and the
 Data Visualization to insurance companies on a Full-stack
